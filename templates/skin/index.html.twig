@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Skin index{% endblock %}
+
+{% block body %}
+    <h1>Skin index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Weapon</th>
+                <th>Rarity</th>
+                <th>Price</th>
+                <th>Float</th>
+                <th>Pattern</th>
+                <th>Stattrak</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for skin in skins %}
+            <tr>
+                <td>{{ skin.id }}</td>
+                <td>{{ skin.name }}</td>
+                <td>{{ skin.weapon }}</td>
+                <td>{{ skin.rarity }}</td>
+                <td>{{ skin.price }}</td>
+                <td>{{ skin.float }}</td>
+                <td>{{ skin.pattern }}</td>
+                <td>{{ skin.stattrak ? 'Yes' : 'No' }}</td>
+                <td>{{ skin.image }}</td>
+                <td>{{ skin.description }}</td>
+                <td>
+                    <a href="{{ path('app_skin_show', {'id': skin.id}) }}">show</a>
+                    <a href="{{ path('app_skin_edit', {'id': skin.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_skin_new') }}">Create new</a>
+{% endblock %}
