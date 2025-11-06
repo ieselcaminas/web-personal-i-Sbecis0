@@ -17,8 +17,11 @@ class Skin
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $weapon = null;
+    #[ORM\ManyToOne(targetEntity: Weapon::class, inversedBy: 'skins')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Weapon $weapon = null;
+
+
 
     #[ORM\Column(length: 255)]
     private ?string $rarity = null;
@@ -58,12 +61,12 @@ class Skin
         return $this;
     }
 
-    public function getWeapon(): ?string
+    public function getWeapon(): ?Weapon
     {
         return $this->weapon;
     }
 
-    public function setWeapon(string $weapon): static
+    public function setWeapon(?Weapon $weapon): static
     {
         $this->weapon = $weapon;
 

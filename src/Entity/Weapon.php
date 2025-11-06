@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Entity\Skin;
 use App\Repository\WeaponRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,20 +16,24 @@ class Weapon
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $type = null;
 
-    #[ORM\Column]
-    private ?int $price = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $float = null;
+    #[ORM\OneToMany(mappedBy: 'weapon', targetEntity: Skin::class, cascade: ['persist', 'remove'])]
+    private Collection $skins;
+
+    public function __construct()
+    {
+        $this->skins = new ArrayCollection();
+    }
+
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -41,7 +48,6 @@ class Weapon
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -53,19 +59,6 @@ class Weapon
     public function setType(string $type): static
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): static
-    {
-        $this->price = $price;
-
         return $this;
     }
 
@@ -74,21 +67,37 @@ class Weapon
         return $this->image;
     }
 
-    public function setImage(string $image): static
+    public function setImage(?string $image): static
     {
         $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Skin>
+     */
+    public function getSkins(): Collection
+    {
+        return $this->skins;
+    }
+
+    public function addSkin(Skin $skin): static
+    {
+        if (!$this->skins->contains($skin)) {
+            $this->skins->add($skin);
+            $skin->setWeapon($this);
+        }
 
         return $this;
     }
 
-    public function getFloat(): ?string
+    public function removeSkin(Skin $skin): static
     {
-        return $this->float;
-    }
-
-    public function setFloat(string $float): static
-    {
-        $this->float = $float;
+        if ($this->skins->removeElement($skin)) {
+            if ($skin->getWeapon() === $this) {
+                $skin->setWeapon(null);
+            }
+        }
 
         return $this;
     }
