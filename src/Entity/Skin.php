@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\SkinRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SkinRepository::class)]
 class Skin
@@ -29,7 +31,7 @@ class Skin
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "wear_float")]
     private ?float $float = null;
 
     #[ORM\Column]
@@ -38,8 +40,19 @@ class Skin
     #[ORM\Column]
     private ?bool $stattrak = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    /**
+     * @var File|null
+     */
+    #[Assert\Image(
+        maxSize: '5M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+        mimeTypesMessage: 'Por favor sube una imagen válida (JPG, PNG, WEBP)'
+    )]
+    private ?File $imageFile = null;
+
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -142,6 +155,16 @@ class Skin
     {
         $this->image = $image;
 
+        return $this;
+    }
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): self
+    {
+        $this->imageFile = $imageFile;
         return $this;
     }
 
