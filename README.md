@@ -1,2 +1,2 @@
-# repositorio
-Template para iniciar un proyecto en blanco
+**ALBUM DE SKINS DE CS2**
+Guarda tus skins del juego como cartas y subelas.
