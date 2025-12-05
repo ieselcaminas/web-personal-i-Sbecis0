@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ weapon.name }}{% endblock %}
+
+{% block body %}
+<h1>{{ weapon.name }}</h1>
+<p>Tipo: {{ weapon.type }}</p>
+<p>Precio: {{ weapon.price }}$</p>
+<img src="{{ weapon.image }}" alt="{{ weapon.name }}" width="250">
+
+<h2>Skins</h2>
+{% if weapon.skins|length > 0 %}
+    <ul>
+        {% for skin in weapon.skins %}
+            <li>
+                {{ skin.name }} ({{ skin.rarity }}) - {{ skin.price }}$
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay skins para esta arma.</p>
+{% endif %}
+
+<a href="{{ path('weapon_index') }}">Volver</a>
+{% endblock %}

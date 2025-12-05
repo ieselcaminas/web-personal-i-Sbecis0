@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de Armas{% endblock %}
+
+
+{% block body %}
+
+
+
+    <h1>Listado de Armas</h1>
+
+    <a href="{{ path('app_weapon_new') }}" class="btn btn-primary"> Añadir nueva arma</a>
+
+    <hr>
+
+
+    {% for weapon in weapons %}
+        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+            <h2>{{ weapon.name }} ({{ weapon.type }})</h2>
+
+            {% if weapon.image %}
+                <img src="{{ weapon.image }}" alt="{{ weapon.name }}" width="150">
+            {% else %}
+                <p><em>Sin imagen</em></p>
+            {% endif %}
+
+            <h3>Skins disponibles:</h3>
+
+            {% if weapon.skins is not empty %}
+                <ul>
+                    {% for skin in weapon.skins %}
+                        <li>
+                            <strong>{{ skin.name }}</strong> -
+                            {{ skin.rarity }} - 
+                            {{ skin.price }} €
+                            {% if skin.stattrak %}
+                                <span style="color: orange;">(StatTrak™)</span>
+                            {% endif %}
+                            <br>
+                            {% if skin.image %}
+                                <img src="{{ skin.image }}" alt="{{ skin.name }}" width="120">
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p><em>No hay skins registradas.</em></p>
+            {% endif %}
+
+            <a href="{{ path('app_skin_new', { weaponId: weapon.id }) }}" class="btn btn-success">Añadir Skin</a>
+            <a href="{{ path('delete_weapon', { id: weapon.id }) }}" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar esta arma?');"> Eliminar </a>
+            
+            </div>
+    {% else %}
+        <p>No hay armas registradas.</p>
+    {% endfor %}
+
+{% endblock %}

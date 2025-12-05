@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block title %}Skin index{% endblock %}
+{% block body %}
+<h1>Skin index</h1>
+
+<div style="text-align: center; margin-bottom: 2rem;">
+    <a href="{{ path('app_skin_new') }}" class="btn btn-primary">➕ Create new Skin</a>
+</div>
+
+<div class="skins-grid">
+    {% for skin in skins %}
+    <div class="skin-card">
+        <div class="skin-card-image">
+            {% if skin.image %}
+                <img src="{{ asset('uploads/skins/' ~ skin.image) }}" alt="{{ skin.name }}">
+            {% else %}
+                <div class="no-image">No image</div>
+            {% endif %}
+            
+            {% if skin.stattrak %}
+                <span class="stattrak-badge">StatTrak™</span>
+            {% endif %}
+        </div>
+        
+        <div class="skin-card-content">
+            <h3 class="skin-name">{{ skin.name }}</h3>
+            <p class="skin-weapon">{{ skin.weapon }}</p>
+            
+            <div class="skin-details">
+                <div class="detail-item">
+                    <span class="detail-label">Rarity:</span>
+                    <span class="rarity-badge rarity-{{ skin.rarity|lower }}">{{ skin.rarity }}</span>
+                </div>
+                
+                <div class="detail-item">
+                    <span class="detail-label">Price:</span>
+                    <span class="detail-value">${{ skin.price }}</span>
+                </div>
+                
+                {% if skin.float %}
+                <div class="detail-item">
+                    <span class="detail-label">Float:</span>
+                    <span class="detail-value">{{ skin.float }}</span>
+                </div>
+                {% endif %}
+                
+                {% if skin.pattern %}
+                <div class="detail-item">
+                    <span class="detail-label">Pattern:</span>
+                    <span class="detail-value">{{ skin.pattern }}</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            {% if skin.description %}
+            <p class="skin-description">{{ skin.description }}</p>
+            {% endif %}
+            
+            <div class="skin-actions">
+                <a href="{{ path('app_skin_show', {'id': skin.id}) }}" class="btn-small btn-info"> View</a>
+                <a href="{{ path('app_skin_edit', {'id': skin.id}) }}" class="btn-small btn-warning"> Edit</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="no-records">
+        <p>No skins found</p>
+        <a href="{{ path('app_skin_new') }}" class="btn">Create your first skin</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

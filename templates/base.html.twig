@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CS Weapons{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <div class="page-wrapper page-padding-lg page-margin-lg">
+        {% include 'partials/header.html.twig' %}
+
+        <main class="main-container">
+            {% block body %}{% endblock %}
+        </main>
+
+        {% include 'partials/footer.html.twig' %}
+        {% block javascripts %}{% endblock %}
+    </div>
+</body>
+</html>

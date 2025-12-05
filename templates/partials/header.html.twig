@@ -1,0 +1,22 @@
+<header class="app-header">
+    <div class="header-left">
+        <a href="{{ path('app_weapon_index') }}" class="header-logo-link" aria-label="Home">
+            <img src="{{ asset('images/logo.png') }}" alt="Counter Zone" class="header-logo" onerror="this.style.display='none'">
+        </a>
+    </div>
+
+    <nav class="header-actions" aria-label="Main navigation">
+        <a class="btn btn-ghost" href="{{ path('app_weapon_index') }}">Armas</a>
+        <a class="btn btn-ghost" href="{{ path('app_skin_index') }}">Skins</a>
+
+        {% if app.user %}
+            <a class="btn btn-primary" href="{{ path('app_logout') }}">Cerrar sesión </a>
+        {% else %}
+            <a class="btn btn-primary" href="{{ path('app_login') }}">Iniciar sesión</a>
+            <a class="btn btn-outline" href="{{ path('app_register') }}">Registrarse</a>
+        {% endif %}
+    </nav>
+</header>
+
+
+
